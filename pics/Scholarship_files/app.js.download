@@ -1,0 +1,104 @@
+// JavaScript Document
+$(function(){
+	$('.menu_box_app .menu_ico').click(function(){
+		//$('.menu_list_app').slideToggle(500);
+		if($(".menu_list_app").is(":visible")==true){
+			$('.menu_box_app').css('background','');
+			$('.menu_list_app').slideUp(500);
+			$(this).removeClass('cur');
+		}else{
+			$('.menu_box_app').css('background','#e09426');
+			$('.menu_list_app').slideDown(500);
+			$(this).addClass('cur');
+			
+		}
+	});
+	
+	$('.menu_list_app ul li').click(function(){
+		$(this).addClass('cur').siblings('.menu_list_app ul li').removeClass('cur');
+	});
+	
+	var heightL = $('.sider ul').height();
+	var heightR = $('.main').height();
+	if(heightL<heightR){
+			$('.sider ul').height(heightR+20);
+	}
+	
+	
+	$.ajax({
+		url:'more_1.html',
+		success: function(html){
+				data_html_N = html;
+			},
+		error: function(error){
+			data_html_N = 'error';
+			$('#more_btn').hide();
+		}
+	});
+	
+	var page = 1;
+	function goto(){
+		//console.log('aaaaaa');
+		//console.log(page);
+		$.ajax({
+			url:'more_' + page + '.html',
+			success: function(html){
+					data_html = html;
+					page = page + 1;
+					$('#more_list').append('<sun style="display:none;">' + data_html + '</sun>');
+					$('sun').eq(-1).slideDown("slow");
+				},
+			error: function(error){
+				data_html = 'error';
+			}
+		});
+		page_N = page + 1;
+		$.ajax({
+			url:'more_' + page_N + '.html',
+			success: function(html){
+					data_html_N = html;
+				},
+			error: function(error){
+				data_html_N = 'error';
+				$('#more_btn').hide();
+			}
+		});
+		//console.log('bbbbbb');
+		//console.log(page);
+	};
+	
+	
+	var month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	$(".month_en").each(function () {
+		for (var i = 0; i <= month.length;i++) {
+			var str = $(this).text();
+			if(str.indexOf('0')==0){
+				str = str.substr(1);
+			}
+			if (str == i.toString()) {
+				$(this).text(month[i-1]);
+				//alert($(this).text());
+			}
+		}
+	});
+	
+	
+	$(".index_news .pic_box").hover(function(){
+			$(this).addClass("cur");
+		},function(){
+			$(this).removeClass("cur");
+	});
+	$(".menu_box ul li").hover(function(){
+			$(this).addClass("hover");
+		},function(){
+			$(this).removeClass("hover");
+	});
+	
+	$('.footer_box .serviceCode').hover(function(){
+		$('.picCode').show();
+	},function(){
+		$('.footer_box .picCode').hide();
+
+	});
+	
+})
